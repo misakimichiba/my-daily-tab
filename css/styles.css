@@ -1,0 +1,92 @@
+* {
+  margin: 0;
+  text-align: center;
+}
+
+nav {
+  background-color: #000000;
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+
+nav h1 {
+  font-family: "Jura", sans-serif;
+  font-weight: 600;
+  font-size: 50px;
+  padding: 20px;
+}
+
+h2 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 350;
+  font-size: 40px;
+}
+
+a {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 350;
+  font-size: 40px;
+  text-decoration: none;
+  color: #000000;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  padding: 5px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 350;
+  font-size: 40px;
+  border-radius: 10px;
+  color: #000000;
+  background-color: #FFFFFF;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #000000;
+  color: #FFFFFF;
+}
+
+button:active {
+  background-color: #FFFFFF;
+  color: #000000;
+}
+
+button:active .icon {
+  filter: brightness(0) invert(0);
+}
+
+.icon {
+  width: 75px;
+  height: 75px;
+  filter: brightness(0) invert(0);
+}
+
+.icon:hover {
+  filter: brightness(0) invert(1);
+}
+
+div {
+  padding: 35px 0 45px 0;
+}
+
+.link-div {
+  padding-left: 42.5%;
+  padding-right: 40%;
+  padding-bottom: 15px;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  row-gap: 20px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.multiple-buttons {
+  display: grid;
+  justify-items: center;
+  row-gap: 20px;
+}
