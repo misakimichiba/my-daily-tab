@@ -56,13 +56,23 @@ button:active {
   color: #000000;
 }
 
-button:active .icon {
+button:active .big-icon {
   filter: brightness(0) invert(0);
 }
 
-.icon {
+.big-icon {
   width: 75px;
   height: 75px;
+  filter: brightness(0) invert(0);
+}
+
+.big-icon:hover {
+  filter: brightness(0) invert(1);
+}
+
+.icon {
+  width: 50px;
+  height: 50px;
   filter: brightness(0) invert(0);
 }
 
@@ -105,4 +115,22 @@ div {
   display: grid;
   justify-items: center;
   row-gap: 20px;
+}
+
+.search-bar {
+  padding: 5px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 350;
+  font-size: 40px;
+  border-color: #000000;
+  border-style: solid;
+  border-radius: 50px;
+  color: #000000;
+  background-color: #FFFFFF;
+  cursor: pointer;
+}
+
+/* tab list */
+.tab-list p {
+  padding: 10px;
 }
