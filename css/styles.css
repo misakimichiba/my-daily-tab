@@ -70,6 +70,22 @@ button:active .icon {
   filter: brightness(0) invert(1);
 }
 
+#refresh {
+  overflow: hidden;
+  transition-duration: 0.8s;
+  transition-property: transform;
+}
+
+#refresh:hover {
+  transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+}
+
+#refresh:active {
+  transform: rotate(360deg);
+  -webkit-transform: rotate(360deg);
+}
+
 div {
   padding: 35px 0 45px 0;
 }
