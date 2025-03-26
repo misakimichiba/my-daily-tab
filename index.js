@@ -39,7 +39,7 @@ app.post('/tabs', (req, res) => {
   console.log(req.body);
 
   res.set('content-type', 'application/json');
-  const sql = `INSERT INTO tabs(tab_link, tab_category) VALUES(?, ?)`;
+  const sql = `INSERT INTO tabs(tab_link, tab_category) VALUES (? , ?)`;
   let newId;
 
   try {
