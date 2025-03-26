@@ -1,0 +1,26 @@
+{
+  "name": "my-daily-tab",
+  "version": "1.0.0",
+  "description": "A web application made to deal with the problem that I personally have where I end up with over 400+ tabs on mobile and also with 20+ tabs on my laptop",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/misakimichiba/my-daily-tab.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/misakimichiba/my-daily-tab/issues"
+  },
+  "homepage": "https://github.com/misakimichiba/my-daily-tab#readme",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "express": "^4.21.2",
+    "sqlite3": "^5.1.7"
+  }
+}
