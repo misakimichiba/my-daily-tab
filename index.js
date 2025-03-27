@@ -1,13 +1,25 @@
 import {DB} from './connect.js';
-
 import express from 'express';
 import bodyParser from 'body-parser';
+import cors from 'cors';
+
+import config from 'dotenv';
+import path from 'path';
+const __dirname = path.resolve();
 
 const app = express();
+app.use(cors());
+app.use(express.static('public'));
+app.use('/images', express.static('images'));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
-  res.status(200).send('Hello World');
+  res.sendFile(__dirname + '/index.html');
+});
+
+app.get('/tab-list', (req, res) => {
+  res.sendFile(__dirname + '/tab-list.html');
 });
 
 app.get('/tabs', (req, res) => {
@@ -59,7 +71,31 @@ app.post('/tabs', (req, res) => {
   }
 });
 
-app.delete('/tabs', (req, res) => {});
+app.delete('/tabs', (req, res) => {
+  res.set('content-type', 'application/json');
+  const sql = `DELETE FROM tabs WHERE tab_id=?`;
+  try{
+    DB.run(sql, [req.query.id], function(err) {
+      if (err) {
+        throw err;
+      }
+      if(this.changes === 1) {
+        res.status(200);
+        res.send(`{"message":"Tab ${req.query.id} has been deleted"}`);
+      } else {
+        res.status(200);
+        res.send({"message":"Tab not found"});
+      }
+      res.status(200);
+      let data = { status: 200, message: `Tab ${req.body.tab_id} has been deleted`};
+      let content = JSON.stringify(data);
+      res.send(content);
+    });
+  }catch(err) {
+    console.log(err.message);
+    res.status(467).send(`{"code":467, "status": "${err.message}"}`);
+  }
+});
 
 app.listen(3000, (err) => {
   if (err) {
