@@ -2,14 +2,11 @@ import {DB} from './connect.js';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import fetch from 'node-fetch';
-
-import config from 'dotenv';
 import path from 'path';
-import { url } from 'inspector';
 const __dirname = path.resolve();
 
 const app = express();
+app.set('view engine', 'ejs');
 app.use(cors());
 app.use(express.static('public'));
 app.use('/images', express.static('images'));
@@ -17,7 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+  res.render('index', { tab_link: 'https://www.google.com.my/search?q=sorolla&client=safari&hl=en-my&prmd=inv&sxsrf=AJOqlzWCrC7w6YIhc8Bp_cummW-LqRwqnQ:1677049955850&source=lnms&sa=X&ved=2ahUKEwjx9433yaj9AhUS3XMBHVreCJIQ_AUoAXoECAIQAQ&biw=375&bih=635&dpr=3&udm=2' });
 });
 
 app.get('/tab-list', (req, res) => {

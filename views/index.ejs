@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Daily Tab</title>
+  <link href="styles.css" rel="stylesheet" type="text/css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav>
+    <h1>The Daily Tab</h1>
+  </nav>
+  <main>
+    <div>
+      <div class="link-div">
+        <h2>Link : </h2>
+        <button>
+          <img src="images/Refresh cw.svg" alt="refresh icon" class="big-icon" id="refresh">
+        </button>
+      </div>
+      <a href="<%= tab_link %>" target="_blank" id="link"> <%= tab_link %> </a>
+    </div>
+    <div class="multiple-buttons">
+      <h2>Delete?</h2>
+      <button>
+        <img src="images/Trash.svg" alt="trash icon" class="big-icon">
+      </button>
+      <form action="/tab-list" method="GET">
+        <button>View / Edit Tab List</button>
+      </form>
+    </div>
+  </main>
+</body>
+</html>
