@@ -16,50 +16,8 @@ app.use('/images', express.static('images'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// async function fetchData() {
-
-//   try {
-
-//     // chore: get link from link id
-//     // const tab_id = document.getElementById("tabSearch").value.toLowerCase();
-
-//     const response = await fetch('http://localhost:3000/tabs');
-
-//     if (!response.ok) {
-//       throw new Error('Could not fetch resource');
-//     }
-//     const data = await response.json();
-//     const tabLink = data.tabs.tab_link;
-//     const urlDisplay = document.getElementById("tabLink");
-
-//     urlDisplay.innerHTML = `<a href="${tabLink}" target="_blank">${tabLink}</a>`;
-
-//     console.log(data.tabs[0].tab_link);
-//   }
-//   catch (error) {
-//     console.error(error);
-//   }
-// }
-
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
-  // remember to change url 
-  // *best to put in .env file
-  // fetch('http://localhost:3000/tabs')
-  //   .then(response => {
-
-  //     if (!response.ok) {
-  //       throw new Error('Could not fetch resource');
-  //     }
-  //     return response.json();
-
-  //   })
-  //   .then(data => {
-  //     console.log(data.tabs[0].tab_link);
-  //   })
-  //   .catch(err => {
-  //     console.log(err);
-  //   });
 });
 
 app.get('/tab-list', (req, res) => {
