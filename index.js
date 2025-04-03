@@ -13,9 +13,64 @@ app.use('/images', express.static('images'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get('/', (req, res) => {
-  res.render('index', { tab_link: 'https://www.google.com.my/search?q=sorolla&client=safari&hl=en-my&prmd=inv&sxsrf=AJOqlzWCrC7w6YIhc8Bp_cummW-LqRwqnQ:1677049955850&source=lnms&sa=X&ved=2ahUKEwjx9433yaj9AhUS3XMBHVreCJIQ_AUoAXoECAIQAQ&biw=375&bih=635&dpr=3&udm=2' });
+// function getRandomTab() {
+//   // get random tab from table
+//   const sql = `SELECT * FROM tabs`;
+//   let data = {tabs: []};
+//   try {
+//     DB.all(sql, [], (err, rows) => {
+//       if (err) {
+//         throw err;
+//       }
+//       rows.forEach(row=>{
+//         data.tabs.push({tab_id: row.tab_id,
+//         tab_link: row.tab_link,
+//         tab_category: row.tab_category});
+//       })
+//       let content = JSON.stringify(data.tabs[0].tab_link);
+//       console.log(content);
+//       return content;
+//     });
+//   } catch (err) {
+//     console.log(err.message);
+//     res.status(467).send(`{"code":467, "status": "${err.message}"}`);
+//   }
+// }
+
+// app.get('/', (req, res) => {
+//   let randomTab = getRandomTab();
+//   console.log(randomTab);
+//   res.render('index', { tab_link: randomTab });
+// });
+
+function getRandomTab() {
+  return new Promise((resolve, reject) => {
+    const sql = `SELECT * FROM tabs ORDER BY RANDOM() LIMIT 1`;
+    DB.all(sql, [], (err, rows) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      if (rows.length === 0) {
+        reject(new Error("No data found"));
+        return;
+      }
+      let content = rows[0].tab_link;
+      resolve(content);
+    });
+  });
+}
+
+app.get('/', async (req, res) => {
+  try {
+    let randomTab = await getRandomTab();
+    res.render('index', { tab_link: randomTab });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send(`{"code":500, "status": "${error.message}"}`);
+  }
 });
+
 
 app.get('/tab-list', (req, res) => {
   res.sendFile(__dirname + '/tab-list.html');
