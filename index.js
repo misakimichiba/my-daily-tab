@@ -43,6 +43,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //   res.render('index', { tab_link: randomTab });
 // });
 
+// get random tab from table
 function getRandomTab() {
   return new Promise((resolve, reject) => {
     const sql = `SELECT * FROM tabs ORDER BY RANDOM() LIMIT 1`;
@@ -61,6 +62,26 @@ function getRandomTab() {
   });
 }
 
+// get all tabs from table
+function getAllTabs() {
+  return new Promise((resolve, reject) => {
+    const sql = `SELECT * FROM tabs`;
+    let data = [];
+    DB.all(sql, [], (err, rows) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      rows.forEach(row=>{
+        // data.push({tab_link: row.tab_link});
+        data.push(row.tab_link);
+      })
+      let content = JSON.stringify(data);
+      resolve(content);
+    });
+  });
+}
+
 app.get('/', async (req, res) => {
   try {
     let randomTab = await getRandomTab();
@@ -71,9 +92,10 @@ app.get('/', async (req, res) => {
   }
 });
 
-
-app.get('/tab-list', (req, res) => {
-  res.sendFile(__dirname + '/tab-list.html');
+app.get('/tab-list', async (req, res) => {
+  let tabList = await getAllTabs();
+  let tabArray = JSON.parse(tabList);
+  res.render('tab-list', { tab_list: tabArray });
 });
 
 app.get('/tabs', (req, res) => {
