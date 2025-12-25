@@ -13,51 +13,19 @@ app.use('/images', express.static('images'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// function getRandomTab() {
-//   // get random tab from table
-//   const sql = `SELECT * FROM tabs`;
-//   let data = {tabs: []};
-//   try {
-//     DB.all(sql, [], (err, rows) => {
-//       if (err) {
-//         throw err;
-//       }
-//       rows.forEach(row=>{
-//         data.tabs.push({tab_id: row.tab_id,
-//         tab_link: row.tab_link,
-//         tab_category: row.tab_category});
-//       })
-//       let content = JSON.stringify(data.tabs[0].tab_link);
-//       console.log(content);
-//       return content;
-//     });
-//   } catch (err) {
-//     console.log(err.message);
-//     res.status(467).send(`{"code":467, "status": "${err.message}"}`);
-//   }
-// }
-
-// app.get('/', (req, res) => {
-//   let randomTab = getRandomTab();
-//   console.log(randomTab);
-//   res.render('index', { tab_link: randomTab });
-// });
-
 // get random tab from table
 function getRandomTab() {
   return new Promise((resolve, reject) => {
-    const sql = `SELECT * FROM tabs ORDER BY RANDOM() LIMIT 1`;
+    const sql = `SELECT tab_id, tab_link FROM tabs ORDER BY RANDOM() LIMIT 1`;
+
     DB.all(sql, [], (err, rows) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      if (rows.length === 0) {
-        reject(new Error("No data found"));
-        return;
-      }
-      let content = rows[0].tab_link;
-      resolve(content);
+      if (err) return reject(err);
+      if (rows.length === 0) return reject(new Error("No data found"));
+
+      resolve({
+        tab_id: rows[0].tab_id,
+        tab_link: rows[0].tab_link
+      });
     });
   });
 }
@@ -84,13 +52,18 @@ function getAllTabs() {
 
 app.get('/', async (req, res) => {
   try {
-    let randomTab = await getRandomTab();
-    res.render('index', { tab_link: randomTab });
+    const randomTab = await getRandomTab();
+
+    res.render('index', {
+      tab_link: randomTab.tab_link,
+      tab_id: randomTab.tab_id
+    });
   } catch (error) {
     console.error(error.message);
-    res.status(500).send(`{"code":500, "status": "${error.message}"}`);
+    res.status(500).send(error.message);
   }
 });
+
 
 app.get('/tab-list', async (req, res) => {
   let tabList = await getAllTabs();
@@ -147,30 +120,24 @@ app.post('/tabs', (req, res) => {
   }
 });
 
-app.delete('/tabs', (req, res) => {
-  res.set('content-type', 'application/json');
+app.delete('/tabs/:id', (req, res) => {
   const sql = `DELETE FROM tabs WHERE tab_id=?`;
-  try{
-    DB.run(sql, [req.query.id], function(err) {
-      if (err) {
-        throw err;
-      }
-      if(this.changes === 1) {
-        res.status(200);
-        res.send(`{"message":"Tab ${req.query.id} has been deleted"}`);
-      } else {
-        res.status(200);
-        res.send({"message":"Tab not found"});
-      }
-      res.status(200);
-      let data = { status: 200, message: `Tab ${req.body.tab_id} has been deleted`};
-      let content = JSON.stringify(data);
-      res.send(content);
-    });
-  }catch(err) {
-    console.log(err.message);
-    res.status(467).send(`{"code":467, "status": "${err.message}"}`);
-  }
+
+  DB.run(sql, [req.params.id], function (err) {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+
+    if (this.changes === 1) {
+      return res.status(200).json({
+        message: `Tab link has been deleted`
+      });
+    } else {
+      return res.status(404).json({
+        message: 'Tab link not found'
+      });
+    }
+  });
 });
 
 app.listen(3000, (err) => {

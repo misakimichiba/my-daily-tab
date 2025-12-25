@@ -10,6 +10,29 @@
   <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
+
+<script>
+  function deleteTab(tabId) {
+    if (!confirm('Are you sure you want to delete this tab link?')) {
+      return;
+    }
+
+    fetch(`/tabs/${tabId}`, {
+      method: 'DELETE'
+    })
+    .then(res => res.json())
+    .then(data => {
+      alert(data.message);
+      window.location.href = '/';
+    })
+    .catch(err => {
+      console.error(err);
+      alert('Failed to delete tab');
+    });
+  }
+</script>
+
+
 <body>
   <nav>
     <h1>The Daily Tab</h1>
@@ -24,15 +47,18 @@
       </form>
       <a href=" <%= tab_link %> " target="_blank" id="link"> <%= tab_link %> </a>
     </div>
+
     <div class="multiple-buttons">
       <h2>Delete?</h2>
-      <button>
+      <button type="button" onclick="deleteTab('<%= tab_id %>')">
         <img src="images/Trash.svg" alt="trash icon" class="big-icon">
       </button>
+
       <form action="/tab-list" method="GET">
         <button>View / Edit Tab List</button>
       </form>
     </div>
+
   </main>
 </body>
 </html>
