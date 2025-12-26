@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // get random tab from table
 function getRandomTab() {
   return new Promise((resolve, reject) => {
-    const sql = `SELECT tab_id, tab_link FROM tabs ORDER BY RANDOM() LIMIT 1`;
+    const sql = `SELECT tab_id, tab_link, tab_category FROM tabs ORDER BY RANDOM() LIMIT 1`;
 
     DB.all(sql, [], (err, rows) => {
       if (err) return reject(err);
@@ -24,7 +24,8 @@ function getRandomTab() {
 
       resolve({
         tab_id: rows[0].tab_id,
-        tab_link: rows[0].tab_link
+        tab_link: rows[0].tab_link,
+        tab_category: rows[0].tab_category
       });
     });
   });
@@ -41,7 +42,7 @@ function getAllTabs() {
         return;
       }
       rows.forEach(row=>{
-        data.push({tab_link: row.tab_link, tab_id: row.tab_id});
+        data.push({tab_link: row.tab_link, tab_id: row.tab_id, tab_category: row.tab_category});
       })
       let content = JSON.stringify(data);
       resolve(content);
