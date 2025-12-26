@@ -41,8 +41,7 @@ function getAllTabs() {
         return;
       }
       rows.forEach(row=>{
-        // data.push({tab_link: row.tab_link});
-        data.push(row.tab_link);
+        data.push({tab_link: row.tab_link, tab_id: row.tab_id});
       })
       let content = JSON.stringify(data);
       resolve(content);
@@ -69,6 +68,12 @@ app.get('/tab-list', async (req, res) => {
   let tabList = await getAllTabs();
   let tabArray = JSON.parse(tabList);
   res.render('tab-list', { tab_list: tabArray });
+});
+
+app.get('/tab-list-edit', async (req, res) => {
+  let tabList = await getAllTabs();
+  let tabArray = JSON.parse(tabList);
+  res.render('tab-list-edit', { tab_list: tabArray });
 });
 
 app.get('/tabs', (req, res) => {

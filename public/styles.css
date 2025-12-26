@@ -56,6 +56,23 @@ button:active {
   color: #000000;
 }
 
+.invert {
+  font-weight: 350;
+  font-size: 30px;
+  color: #FFFFFF;
+  background-color: #000000;
+}
+
+.invert:hover {
+  background-color: #FFFFFF;
+  color: #000000;
+}
+
+.invert:active {
+  background-color: #FFFFFF;
+  color: #000000;
+}
+
 button:active .big-icon {
   filter: brightness(0) invert(0);
 }
