@@ -71,12 +71,6 @@ app.get('/tab-list', async (req, res) => {
   res.render('tab-list', { tab_list: tabArray });
 });
 
-app.get('/tab-list-edit', async (req, res) => {
-  let tabList = await getAllTabs();
-  let tabArray = JSON.parse(tabList);
-  res.render('tab-list-edit', { tab_list: tabArray });
-});
-
 app.get('/tabs', (req, res) => {
   // get all tabs from table
   res.set('content-type', 'application/json');

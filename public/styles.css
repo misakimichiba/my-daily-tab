@@ -23,6 +23,13 @@ h2 {
   font-size: 40px;
 }
 
+hr {
+  border: none;
+  height: 2px;
+  background-color: #000000;
+  margin: 10px 0 10px 0;
+}
+
 p {
   font-family: "Montserrat", sans-serif;
   font-weight: 350;
